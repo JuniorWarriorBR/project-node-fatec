@@ -1,0 +1,45 @@
+<div
+  class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top"
+>
+  <a routerLink="/home">
+    <img src="/assets/images/logo.png" style="max-height: 70px" alt="logo" />
+  </a>
+  <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger">
+    <a class="p-2 text-dark" routerLink="/home" routerLinkActive="Active"
+      >Início</a
+    >
+    <a class="p-2 text-dark" routerLink="/jobs" routerLinkActive="Active"
+      >Jobs</a
+    >
+    <a class="p-2 text-dark" routerLink="/empresas">Empresas</a>
+    <a class="p-2 text-dark" routerLink="/dashboard">Dashboard</a>
+    <a class="p-2 text-dark" routerLink="/usuario">Usuario</a>
+  </nav>
+  <div class="d-flex align-items-center">
+    <a
+      *ngIf="!loginService.loggedIn()"
+      class="btn btn-outline-secondary mr-2"
+      routerLink="/login"
+      routerLinkActive="Active"
+      >Entrar</a
+    >
+    <a
+      *ngIf="!loginService.loggedIn()"
+      class="btn btn-outline-secondary mr-3"
+      routerLink="/registrar"
+      routerLinkActive="Active"
+      >Registrar</a
+    >
+    <span *ngIf="loginService.loggedIn()" class="mr-5 badge badge-secondary">{{
+      email
+    }}</span>
+    <a
+      *ngIf="loginService.loggedIn()"
+      class="btn btn-outline-secondary mr-3"
+      routerLinkActive="Active"
+      (click)="loginService.logout()"
+      (click)="logout()"
+      >Logout</a
+    >
+  </div>
+</div>

@@ -1,0 +1,152 @@
+<div class="card add-car mt-5 mb-5" [ngClass]="showModal ? '' : 'd-none'">
+  <h5 class="card-header">Adicionar/Atualizar job</h5>
+  <div class="card-body">
+    <form
+      id="add-form"
+      (ngSubmit)="f.form.valid && saveJob(f)"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="title">Título</label>
+        <input
+          type="text"
+          [(ngModel)]="job.title"
+          id="title"
+          name="title"
+          #title="ngModel"
+          required
+          class="form-control"
+          [ngClass]="{ 'is-invalid': f.submitted && title.invalid }"
+          placeholder="Digite o título"
+        />
+        <div *ngIf="f.submitted && title.invalid" class="invalid-feedback">
+          <div *ngIf="title.errors.required">Título é obrigatório</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <input
+          type="text"
+          [(ngModel)]="job.description"
+          id="description"
+          name="description"
+          #description="ngModel"
+          required
+          class="form-control"
+          [ngClass]="{ 'is-invalid': f.submitted && description.invalid }"
+          placeholder="Digite uma descrição"
+        />
+        <div
+          *ngIf="f.submitted && description.invalid"
+          class="invalid-feedback"
+        >
+          <div *ngIf="description.errors.required">Descrição é obrigatória</div>
+        </div>
+      </div>
+      <div class="form-group" [ngClass]="!editing ? '' : 'd-none'">
+        <label for="companyId">Empresa</label>
+
+        <select
+          class="form-control"
+          [(ngModel)]="job.companyId"
+          id="companyId"
+          name="companyId"
+          #companyId="ngModel"
+          required
+          [ngClass]="{ 'is-invalid': f.submitted && companyId.invalid }"
+        >
+          <option
+            *ngFor="let empresa of empresas"
+            value="{{ empresa._id }}"
+            [selected]="empresa._id == job._id"
+          >
+            {{ empresa.title }}
+          </option>
+        </select>
+        <div *ngIf="f.submitted && companyId.invalid" class="invalid-feedback">
+          <div *ngIf="companyId.errors.required">Empresa é obrigatória</div>
+        </div>
+      </div>
+
+      <div class="form-group form-check" [ngClass]="editing ? '' : 'd-none'">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          [(ngModel)]="job.completed"
+          id="completed"
+          name="completed"
+          #completed="ngModel"
+        />
+        <label class="form-check-label" for="completed"> Status </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-add-car mr-2">
+        Salvar
+      </button>
+      <button
+        type="reset"
+        class="btn btn-secondary btn-add-car"
+        (click)="cleanForm(f)"
+        (click)="showModal = false"
+      >
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="card list-car">
+  <h5 class="card-header">
+    Lista de jobs
+    <button class="btn btn-default float-right" (click)="saveEnable()">
+      <i class="fa fa-plus" aria-hidden="true"> Adicionar</i>
+    </button>
+  </h5>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Empresa</th>
+          <th scope="col">Título</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Status</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let job of jobs">
+          <td>{{ job._id }}</td>
+          <td>{{ job.company[0].title }}</td>
+          <td>{{ job.title }}</td>
+          <td>{{ job.description }}</td>
+          <td>
+            <span *ngIf="job.completed" class="badge badge-success"
+              >Finalizado</span
+            >
+            <span *ngIf="!job.completed" class="badge badge-danger"
+              >Aberto</span
+            >
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-warning btn-sm"
+              (click)="editJob(job)"
+            >
+              Editar
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm ml-1"
+              (click)="deleteJob(job)"
+            >
+              Deletar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

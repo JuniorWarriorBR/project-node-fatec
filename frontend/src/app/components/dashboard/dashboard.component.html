@@ -1,0 +1,42 @@
+<div>
+  <div
+    class="row row-cols-1 row-cols-md-3"
+    [ngClass]="showDashboard ? '' : 'd-none'"
+  >
+    <div class="col mb-4" *ngFor="let job of jobs">
+      <div
+        class="card text-white {{
+          job.completed ? 'bg-success' : 'bg-danger'
+        }}  mb-3"
+      >
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ job.title }}
+            <span class="float-right">{{
+              job.completed ? "Finalizado" : "Aberto"
+            }}</span>
+          </h5>
+          <p class="card-text">{{ job.description }}</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted"
+          >Criado em: {{ job.createdAt | date: "MM/dd/yyyy HH:mm:ss" }}</small
+        >
+        <span class="float-right badge badge-secondary">{{
+          job.company[0].title
+        }}</span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="inner cover home text-center"
+    [ngClass]="!showDashboard ? '' : 'd-none'"
+  >
+    <h1 class="cover-heading">Nenhum trabalho encontrado</h1>
+    <p class="lead">Comece agora mesmo clicando no link abaixo.</p>
+    <p class="lead">
+      <a href="/jobs" class="btn btn-lg btn-secondary">Registrar Job</a>
+    </p>
+  </div>
+</div>

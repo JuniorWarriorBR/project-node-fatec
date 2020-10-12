@@ -1,0 +1,104 @@
+<div class="card add-car mt-5 mb-5" [ngClass]="showModal ? '' : 'd-none'">
+  <h5 class="card-header">Adicionar/Atualizar empresa</h5>
+  <div class="card-body">
+    <form
+      id="add-form"
+      (ngSubmit)="f.form.valid && saveEmpresa(f)"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="title">Título</label>
+        <input
+          type="text"
+          [(ngModel)]="empresa.title"
+          id="title"
+          name="title"
+          #title="ngModel"
+          required
+          class="form-control"
+          [ngClass]="{ 'is-invalid': f.submitted && title.invalid }"
+          placeholder="Digite o título"
+        />
+        <div *ngIf="f.submitted && title.invalid" class="invalid-feedback">
+          <div *ngIf="title.errors.required">Título é obrigatório</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <input
+          type="text"
+          [(ngModel)]="empresa.description"
+          id="description"
+          name="description"
+          #description="ngModel"
+          required
+          class="form-control"
+          [ngClass]="{ 'is-invalid': f.submitted && description.invalid }"
+          placeholder="Digite uma descrição"
+        />
+        <div
+          *ngIf="f.submitted && description.invalid"
+          class="invalid-feedback"
+        >
+          <div *ngIf="description.errors.required">Descrição é obrigatória</div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-add-car mr-2">
+        Salvar
+      </button>
+      <button
+        type="reset"
+        class="btn btn-secondary btn-add-car"
+        (click)="cleanForm(f)"
+        (click)="showModal = false"
+      >
+        Cancelar
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="card list-car">
+  <h5 class="card-header">
+    Lista de empresas
+    <button class="btn btn-default float-right" (click)="showModal = true">
+      <i class="fa fa-plus" aria-hidden="true"> Adicionar</i>
+    </button>
+  </h5>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Título</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let empresa of empresas">
+          <td>{{ empresa._id }}</td>
+          <td>{{ empresa.title }}</td>
+          <td>{{ empresa.description }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-warning btn-sm"
+              (click)="editEmpresa(empresa)"
+            >
+              Editar
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm ml-1"
+              (click)="deleteEmpresa(empresa)"
+            >
+              Deletar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
